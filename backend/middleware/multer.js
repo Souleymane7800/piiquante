@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, "images");
   },
-  //modif du nom de fichier
+  //modification du nom de fichier
   //nom d'origine +  date précise (avec Date.now)pour éviter tout doublon
   //extension selon constante MIME_TYPES
   filename: (req, file, callback) => {

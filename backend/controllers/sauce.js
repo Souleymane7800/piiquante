@@ -1,6 +1,9 @@
 // Importation du models de la base de donnée MongoDB
 const Sauce = require('../models/Sauce');
 
+// Importation du module fs de node.js pour accéder aux fichiers du serveur
+const fs = require('fs');
+
 exports.createSauce = (req, res) => {
     const sauceObject = JSON.parse(req.body.sauce);
     console.log('============CONTENUE SAUCE OBJET'); //test
@@ -30,7 +33,7 @@ exports.getAllSauces = (req, res, next) => {
   Sauce.find()
     .then((sauce) => res.status(200).json(sauce))
     .catch((error) => {
-      const message = "les sauces n'ont pu être affichées, réessayez plus tard";
+      const message = "Les sauces n'ont pu être affichées, réessayez plus tard";
       res.status(404).json({ message, data: error });
     });
 };
@@ -90,7 +93,7 @@ exports.deleteSauce = (req, res) => {
       fs.unlink(`images/${filename}`, () => {
         Sauce.deleteOne({ _id: req.params.id })
           .then((sauce) => {
-            const message = "la sauce a bien été supprimée";
+            const message = "La sauce a bien été supprimée";
             res.json({ message, data: sauce });
           })
           .catch((error) => res.status(400).json({ error }));
@@ -114,9 +117,9 @@ exports.noteSauce = (req, res) => {
             { _id: req.params.id },
             { $inc: { likes: -1 }, $pull: { usersLiked: req.body.userId } }
           )
-            .then(() => res.status(200).json({ message: "note mise à jour" }))
+            .then(() => res.status(200).json({ message: "Note mise à jour" }))
             .catch((error) => {
-              const message = `votre note n'a pu être prise en compte, merci de réessayer dans quelques instants.`;
+              const message = `Votre note n'a pu être prise en compte, merci de réessayer dans quelques instants.`;
               res.status(500).json({ message, data: error });
             });
         }
@@ -130,15 +133,15 @@ exports.noteSauce = (req, res) => {
               $pull: { usersDisliked: req.body.userId },
             }
           )
-            .then(() => res.status(200).json({ message: "note mise à jour" }))
+            .then(() => res.status(200).json({ message: "Note mise à jour" }))
             .catch((error) => {
-              const message = `votre note n'a pu être prise en compte, merci de réessayer dans quelques instants.`;
+              const message = `Votre note n'a pu être prise en compte, merci de réessayer dans quelques instants.`;
               res.status(500).json({ message, data: error });
             });
         }
       })
       .catch((error) => {
-        const message = `votre note n'a pu être prise en compte, merci de réessayer dans quelques instants.`;
+        const message = `Votre note n'a pu être prise en compte, merci de réessayer dans quelques instants.`;
         res.status(500).json({ message, data: error });
       });
   }
@@ -149,9 +152,9 @@ exports.noteSauce = (req, res) => {
       { $inc: { likes: 1 }, $push: { usersLiked: req.body.userId } }
     )
 
-      .then(() => res.status(200).json({ message: "note prise en compte" }))
+      .then(() => res.status(200).json({ message: "Note prise en compte" }))
       .catch((error) => {
-        const message = `votre note n'a pu être prise en compte, merci de réessayer dans quelques instants.`;
+        const message = `Votre note n'a pu être prise en compte, merci de réessayer dans quelques instants.`;
         res.status(500).json({ message, data: error });
       });
   }
@@ -162,9 +165,9 @@ exports.noteSauce = (req, res) => {
       { $inc: { dislikes: 1 }, $push: { usersDisliked: req.body.userId } }
     )
 
-      .then(() => res.status(200).json({ message: "note prise en compte" }))
+      .then(() => res.status(200).json({ message: "Note prise en compte" }))
       .catch((error) => {
-        const message = `votre note n'a pu être prise en compte, merci de réessayer dans quelques instants.`;
+        const message = `Votre note n'a pu être prise en compte, merci de réessayer dans quelques instants.`;
         res.status(500).json({ message, data: error });
       });
   }

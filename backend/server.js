@@ -1,5 +1,4 @@
 // Importation du package HTTP de Node
-// Importation de l'application app.js
 const http = require('http');
 
 // Importer l'application app.js

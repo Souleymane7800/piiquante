@@ -21,8 +21,7 @@ const app = express();
 app.use(morgan('dev'));
 
 // Debug mongoose
-console.log('==========DEBUG LOGGER MONGOOSE'); //test
-mongoose.set('debug', true); //test
+mongoose.set('debug', true); 
 
 // Gérer les problemes de CORS (Cross-Origin Request Sharing)
 // CORS : système de sécurité qui bloque par défaut les appels http entre les servers
