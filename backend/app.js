@@ -1,6 +1,17 @@
 // Importation de express
 const express = require('express');
 
+//mise en place de plusieurs HTTP headers qui vont sécuriser l'appli
+const helmet = require("helmet");
+
+//empêche les attaques type bruteforce
+const rateLimit = require("express-rate-limit");
+
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100
+});
+
 // Importation de morgan (logger http)
 const morgan = require('morgan');
 
@@ -16,6 +27,9 @@ const path = require('path');
 
 // Création de l'application express
 const app = express();
+
+app.use(helmet());
+app.use("/api/", apiLimiter);
 
 // Logger les requests et les responses
 app.use(morgan('dev'));
