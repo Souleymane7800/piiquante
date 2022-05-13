@@ -6,15 +6,14 @@ const fs = require('fs');
 
 exports.createSauce = (req, res) => {
     const sauceObject = JSON.parse(req.body.sauce);
-    console.log('============CONTENUE SAUCE OBJET'); //test
-    console.log(sauceObject); //test
-
+    
     const sauce = new Sauce({
       ...sauceObject,
       imageUrl: `${req.protocol}://${req.get("host")}/images/${
         req.file.filename
       }`, // Url dynamique selon chemin serveur
     });
+
     // Enregistrer une nouvelle sauce dans la base de données
   sauce
   .save()
@@ -158,6 +157,7 @@ exports.noteSauce = (req, res) => {
         res.status(500).json({ message, data: error });
       });
   }
+  
   // ajout d'un dislike et ajout du userId dans le usersDisliked
   if (req.body.like === -1) {
     Sauce.updateOne(

@@ -3,8 +3,6 @@ const express = require('express');
 
 // Importation du controllers/user.js
 const sauceCtrl = require('../controllers/sauce');
-console.log('========CONTENU SAUCE'); //test
-console.log(sauceCtrl); //test
 
 // Importation du middleware d'authentification
 const auth = require('../middleware/auth');

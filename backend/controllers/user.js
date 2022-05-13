@@ -14,22 +14,12 @@ const result = dotenv.config();
 // Importation models de la base de donnée User.js
 const User = require('../models/User');
 
-
-
-
 // Signup pour enregistrer un nouvel utilisateur dans la base de donnée
 exports.signup =(req, res, next) => {
-    console.log('============CONTENU: REQ.BODY.controllersuser'); //test
-    console.log(req.body.email); // test
-    
-    console.log('============CONTENU: REQ.BODY.controllersuser'); //test
-    console.log(req.body.password); //test
-
+       
     // Chiffrer l'email avant de l'envoyer dans la base de donnée
     const emailCryptoJs = cryptojs.HmacSHA256(req.body.email, `${process.env.CRYPTOJS_EMAIL}`).toString();
-    console.log('============CRYPTO EMAIL--CTRL/USER');
-    console.log(emailCryptoJs);
-
+    
     // Hasher le mot de passe avant de l'envoyer dans la base donnée
     // Salt = 10 combien de fois l'algorythme sera éxécuté
     bcrypt.hash(req.body.password, 10) 
@@ -39,9 +29,7 @@ exports.signup =(req, res, next) => {
             email : emailCryptoJs,
             password : hash
         });
-        console.log('============CONTENU CONTROLLERS/USER');
-        console.log(user);
-
+    
         // Envoyer le user dans la base de donnée MongoDB
         user
             .save()
@@ -54,23 +42,13 @@ exports.signup =(req, res, next) => {
     .catch((error) => res.status(500).json({error}).send(console.log(error)));
 };
 
-
 // Login pour s'enregistrer
 exports.login = (req, res, next) => {
     // Le contenu de la requête
-    console.log('============CONTENU: LOGIN'); //test
-    console.log(req.body.email); // test
-    
-    console.log('============CONTENU: LOGIN'); //test
-    console.log(req.body.password); //test
-
+   
     // Chiffrer l'email de la requête
     const emailCryptoJs = cryptojs.HmacSHA256(req.body.email, `${process.env.CRYPTOJS_EMAIL}`).toString();
-    console.log('============CRYPTO EMAIL--CTRL/USER');
-    console.log(emailCryptoJs);
-
-    console.log('============CRYPTO USER');
-    console.log(User);
+        
     // Chercher si l'utilisateur est dans la base de donnée
     User.findOne({email:emailCryptoJs})
     // Si le mail utilisateur n'est pas présent
@@ -83,9 +61,7 @@ exports.login = (req, res, next) => {
         bcrypt
         .compare(req.body.password, user.password)
         .then((ctrlPassword) => {
-            console.log('============CTRLPASS');//test
-            console.log(ctrlPassword);//test
-
+           
             // Si le mot de passe est incorrect
             if(!ctrlPassword) {
                 return res.status(401).json({error : 'Le mot de passe est incorrect'})
@@ -106,7 +82,6 @@ exports.login = (req, res, next) => {
         .catch((error) => res.status(500).json({error}))
     })
     .catch((error) => res.status(500).json({error}));
-
 
 };
 

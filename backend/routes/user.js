@@ -1,15 +1,13 @@
 // Importation
 const express = require('express');
 
-// Importation du middleware/password
+// Importation du middleware/password et ctrlEmail
 const password = require('../middleware/password');
 
 const ctrlEmail = require('../middleware/ctrlEmail');
 
 // Importation du controllers/user.js
 const userCtrl = require('../controllers/user');
-console.log('========CONTENU ROUTEuser'); //test
-console.log(userCtrl); //test
 
 // La fonction Router()
 const router = express.Router();
